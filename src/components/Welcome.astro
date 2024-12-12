@@ -48,9 +48,6 @@ const inputs = [
           id="itemInput"
           rows="4"
           class="w-full p-4 bg-neutral-900/10 rounded"></textarea>
-        <button id="parseButton" class="p-2 bg-blue-500 text-white rounded"
-          >Parse Stats</button
-        >
       </div>
 
       <div class="flex gap-8">
@@ -139,62 +136,72 @@ const inputs = [
       updateLabel("elementalDPS", `Elemental DPS: ${elementalDPS.toFixed(2)}`);
     };
 
+    const parseStats = (content: string) => {
+      const damageTypes = ["physical", "lightning", "fire", "cold", "chaos"];
+      const damageRegex = new RegExp(
+        `(${damageTypes.join("|")}) Damage: (\\d+)-(\\d+)`,
+        "gi"
+      );
+      const speedRegex = /Attacks per Second: (\d+\.\d+)/;
+
+      // Clear existing input values
+      damageTypes.forEach((type) => {
+        const minInput = document.querySelector<HTMLInputElement>(
+          `input[name='${type}Min']`
+        );
+        const maxInput = document.querySelector<HTMLInputElement>(
+          `input[name='${type}Max']`
+        );
+
+        if (minInput) minInput.value = "";
+        if (maxInput) maxInput.value = "";
+      });
+
+      const atkSpeedInput = document.querySelector<HTMLInputElement>(
+        "input[name='speedMin']"
+      );
+      if (atkSpeedInput) atkSpeedInput.value = "";
+
+      // Parse damage stats
+      let match;
+      while ((match = damageRegex.exec(content)) !== null) {
+        const type = match[1].toLowerCase();
+        const min = parseInt(match[2], 10);
+        const max = parseInt(match[3], 10);
+
+        const minInput = document.querySelector<HTMLInputElement>(
+          `input[name='${type}Min']`
+        );
+        const maxInput = document.querySelector<HTMLInputElement>(
+          `input[name='${type}Max']`
+        );
+
+        if (minInput) minInput.value = min.toString();
+        if (maxInput) maxInput.value = max.toString();
+      }
+
+      // Parse attack speed
+      const speedMatch = speedRegex.exec(content);
+      if (speedMatch) {
+        const speed = parseFloat(speedMatch[1]);
+        if (atkSpeedInput) atkSpeedInput.value = speed.toString();
+      }
+
+      calculateDPS();
+    };
+
     inputs.forEach((input) => {
       input.addEventListener("input", calculateDPS);
     });
 
-    calculateDPS();
+    const textarea = document.querySelector<HTMLTextAreaElement>("#itemInput");
+    if (textarea) {
+      textarea.addEventListener("input", () => {
+        parseStats(textarea.value);
+      });
+    }
 
-    // Parsing Functionality
-    const parseButton = document.querySelector("#parseButton");
-    if (!parseButton) return;
-
-    parseButton.addEventListener("click", () => {
-      const textarea =
-        document.querySelector<HTMLTextAreaElement>("#itemInput");
-      if (!textarea) return;
-
-      const content = textarea.value;
-
-      const statsRegex = /Physical Damage: (\d+)-(\d+)/;
-      const speedRegex = /Attacks per Second: (\d+\.\d+)/;
-
-      const physicalMatch = statsRegex.exec(content);
-      const speedMatch = speedRegex.exec(content);
-
-      if (physicalMatch) {
-        const min = parseInt(physicalMatch[1], 10);
-        const max = parseInt(physicalMatch[2], 10);
-
-        const minInput = document.querySelector<HTMLInputElement>(
-          "input[name='physicalMin']"
-        );
-        const maxInput = document.querySelector<HTMLInputElement>(
-          "input[name='physicalMax']"
-        );
-
-        if (minInput) {
-          minInput.value = min.toString();
-        }
-
-        if (maxInput) {
-          maxInput.value = max.toString();
-        }
-      }
-
-      if (speedMatch) {
-        const speed = parseFloat(speedMatch[1]);
-        const speedInput = document.querySelector<HTMLInputElement>(
-          "input[name='speedMin']"
-        );
-
-        if (speedInput) {
-          speedInput.value = speed.toString();
-        }
-      }
-
-      calculateDPS();
-    });
+    calculateDPS(); // Initial calculation on page load
   });
 </script>
 
