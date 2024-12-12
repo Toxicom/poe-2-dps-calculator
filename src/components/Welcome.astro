@@ -6,7 +6,7 @@ const inputs = [
     max: "physical",
   },
   {
-    label: "Attack Speed",
+    label: "Attacks per Second",
     min: "speed",
     max: null,
   },
@@ -55,6 +55,12 @@ const inputs = [
 
       <div class="flex gap-8">
         <div class="flex flex-col gap-4">
+          <div>
+            <h2 class="mt-8 text-xl font-bold">
+              You can also manually input numbers below:
+            </h2>
+            <p>DPS will not show until you specify the attack speed!</p>
+          </div>
           {
             inputs.map(({ label, min, max }) => {
               return (
