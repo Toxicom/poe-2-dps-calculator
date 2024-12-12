@@ -36,7 +36,9 @@ const inputs = [
 <div id="container" class="bg-neutral-800 text-neutral-50 min-h-dvh">
   <main>
     <section id="hero" class="flex flex-col items-center justify-center p-8">
-      <h1 class="font-black text-3xl mb-8">Path of Exile 2 DPS Calculator</h1>
+      <h1 class="font-black text-3xl mb-8">
+        Path of Exile 2 Weapon DPS Calculator
+      </h1>
 
       <div class="flex flex-col gap-4 w-full">
         <label for="itemInput"
@@ -73,16 +75,16 @@ const inputs = [
           }
         </div>
 
-        <div class="bg-blue-500/10 mt-4 p-8 rounded md:min-w-80">
-          <p id="lightningDPS" class="dps-output"></p>
-          <p id="fireDPS" class="dps-output"></p>
-          <p id="coldDPS" class="dps-output"></p>
+        <div class="bg-neutral-600/10 mt-4 p-8 font-bold rounded md:min-w-80">
+          <p id="lightningDPS" class="dps-output text-[gold]"></p>
+          <p id="fireDPS" class="dps-output text-[#960000]"></p>
+          <p id="coldDPS" class="dps-output text-[#366492]"></p>
 
-          <p id="physicalDPS" class="dps-output mt-2 font-bold"></p>
-          <p id="elementalDPS" class="dps-output font-bold"></p>
-          <p id="chaosDPS" class="dps-output font-bold"></p>
+          <p id="physicalDPS" class="dps-output text-[#88f] mt-2"></p>
+          <p id="elementalDPS" class="dps-output text-[#88f]"></p>
+          <p id="chaosDPS" class="dps-output text-[#cf168f]"></p>
 
-          <p id="totalDPS" class="dps-output font-bold mt-2"></p>
+          <p id="totalDPS" class="dps-output mt-2"></p>
         </div>
       </div>
     </section>
