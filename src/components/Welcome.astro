@@ -74,15 +74,14 @@ const inputs = [
         </div>
 
         <div class="bg-blue-500/10 mt-4 p-8 rounded md:min-w-80">
-          {
-            inputs.map(({ min }) => {
-              if (min === "physical") return;
+          <p id="lightningDPS" class="dps-output"></p>
+          <p id="fireDPS" class="dps-output"></p>
+          <p id="coldDPS" class="dps-output"></p>
 
-              return <p id={`${min}DPS`} class="dps-output" />;
-            })
-          }
           <p id="physicalDPS" class="dps-output mt-2 font-bold"></p>
           <p id="elementalDPS" class="dps-output font-bold"></p>
+          <p id="chaosDPS" class="dps-output font-bold"></p>
+
           <p id="totalDPS" class="dps-output font-bold mt-2"></p>
         </div>
       </div>
