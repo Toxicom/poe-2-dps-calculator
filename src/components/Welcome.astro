@@ -74,9 +74,16 @@ const inputs = [
         </div>
 
         <div class="bg-blue-500/10 mt-4 p-8 rounded md:min-w-80">
-          {inputs.map(({ min }) => <p id={`${min}DPS`} class="dps-output" />)}
-          <p id="elementalDPS" class="dps-output mt-2"></p>
-          <p id="totalDPS" class="dps-output"></p>
+          {
+            inputs.map(({ min }) => {
+              if (min === "physical") return;
+
+              return <p id={`${min}DPS`} class="dps-output" />;
+            })
+          }
+          <p id="physicalDPS" class="dps-output mt-2 font-bold"></p>
+          <p id="elementalDPS" class="dps-output font-bold"></p>
+          <p id="totalDPS" class="dps-output font-bold"></p>
         </div>
       </div>
     </section>
